@@ -6,5 +6,5 @@ const authMiddleware = require('../middleware/authmiddleware')
 const postRouter = express.Router()
 
 postRouter.post('/create', authMiddleware.verifyToken, postController.createPost)
-postRouter.get('/', authMiddleware.verifyToken, postController.viewAllposts)
+postRouter.get('/getpost', authMiddleware.verifyToken, postController.viewAllPosts)
 module.exports = postRouter;

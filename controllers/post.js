@@ -1,5 +1,5 @@
-const post = require('../models/post');
-const { find } = require('../models/user');
+const Post = require('../models/post')
+// const { find } = require('../models/user');
 
 const postController = {
     createPost: async (request, response) => {
@@ -8,7 +8,7 @@ const postController = {
             //    console.log(userId)
             const { title, description } = await request.body
             // console.log(description)
-            const posts = new post({
+            const posts = new Post({
                 title,
                 description,
                 user: userId
@@ -24,14 +24,19 @@ const postController = {
         }
     },
 
-    viewAllposts: async (request, response) => {
+    viewAllPosts: async (request, response) => {
         try {
-            const userId = request.userId
-            const posts = await post.find({ user: userId })
-            return response.status(200).json({ message: "posts retrieved successfully", posts })
+
+            const userId = request.userId;
+            console.log('userid', userId)
+            const posts = await Post.find({ user: userId });
+            console.log(posts)
+            return response.json({ message: 'Posts retrieved successfully', posts });
         } catch (error) {
-            return response.status(404).json({ message: "token invalid" })
+            console.error('Error retrieving posts:', error);
+            return response.status(500).json({ error: 'Internal Server Error' });
         }
+
     }
 }
 
